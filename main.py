@@ -31,7 +31,7 @@ with st.sidebar:
         os.makedirs(DOCS_DIR)
     st.subheader("Add to the Knowledge Base")
     with st.form("my-form", clear_on_submit=True):
-        uploaded_files = st.file_uploader("Upload a file to the Knowledge Base:", accept_multiple_files = True)
+        uploaded_files = st.file_uploader("Temporarily upload a file to my knowledge:", accept_multiple_files = True)
         submitted = st.form_submit_button("Upload!")
 
     if uploaded_files and submitted:
@@ -81,6 +81,8 @@ if use_existing_vector_store == "Yes" and vector_store_exists:
         vectorstore = pickle.load(f)
     with st.sidebar:
         st.success("Existing vector store loaded successfully.")
+        st.caption("Files loaded from: https://github.com/belligerentbeagle/TsinghuaSEP-Assistant/tree/main/uploaded_docs")
+        st.warning("If you would like to contribute your SEP instructions/information added to the knowledge base permanently (not deleted on refresh), please tele @contemplativecorgi")
 else:
     with st.sidebar:
         if raw_documents:
