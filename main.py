@@ -26,7 +26,7 @@ import os
 st.set_page_config(layout = "wide")
 
 with st.sidebar:
-    DOCS_DIR = os.path.abspath("./uploaded_docs")
+    DOCS_DIR = "./uploaded_docs"
     if not os.path.exists(DOCS_DIR):
         os.makedirs(DOCS_DIR)
     st.subheader("Add to the Knowledge Base")
@@ -67,7 +67,7 @@ with st.sidebar:
     use_existing_vector_store = st.radio("Use existing vector store if available", ["Yes", "No"], horizontal=True)
 
 # Path to the vector store file
-vector_store_path = "vectorstore.pkl"
+vector_store_path = "./vectorstore.pkl"
 
 # Load raw documents from the directory
 raw_documents = DirectoryLoader(DOCS_DIR).load()
