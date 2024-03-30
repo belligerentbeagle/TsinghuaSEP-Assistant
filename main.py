@@ -25,6 +25,12 @@ import os
 
 st.set_page_config(layout = "wide")
 
+def nav_to(url):
+    nav_script = """
+        <meta http-equiv="refresh" content="0; url='%s'">
+    """ % (url)
+    st.write(nav_script, unsafe_allow_html=True)
+
 with st.sidebar:
     st.caption("Let Ethan know who's using me today! 🩵")
     name = st.text_input("Enter your name:") or "Anon"
@@ -70,9 +76,9 @@ with st.sidebar:
     # Option for using an existing vector store
     use_existing_vector_store = "Yes"
     if st.button("📚 See SEP Knowledge Base"):
-        webbrowser.open_new_tab("https://github.com/belligerentbeagle/TsinghuaSEP-Assistant/tree/main/uploaded_docs")
+        nav_to("https://github.com/belligerentbeagle/TsinghuaSEP-Assistant/tree/main/uploaded_docs")
     if st.button("🧑‍💻 Our Google Sheet"):
-        webbrowser.open_new_tab("https://docs.google.com/spreadsheets/d/1RHgm3dnaiSFubylJPz2cafkgEJQJU0nq0uX9xpCauSc/edit#gid=0")
+        nav_to("https://docs.google.com/spreadsheets/d/1RHgm3dnaiSFubylJPz2cafkgEJQJU0nq0uX9xpCauSc/edit#gid=0")
     st.warning("If you would like to contribute your SEP instructions/information added to the knowledge base permanently (not deleted on refresh), please tele @contemplativecorgi")
 
 # Path to the vector store file
