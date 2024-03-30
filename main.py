@@ -26,6 +26,8 @@ import os
 st.set_page_config(layout = "wide")
 
 with st.sidebar:
+    st.caption("Let Ethan know who's using me today! 🩵")
+    name = st.text_input("Enter your name:")
     DOCS_DIR = "./uploaded_docs"
     if not os.path.exists(DOCS_DIR):
         os.makedirs(DOCS_DIR)
@@ -61,6 +63,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.document_loaders import DirectoryLoader
 from langchain.vectorstores import FAISS
 import pickle
+import requests as rq
 
 with st.sidebar:
     # Option for using an existing vector store
@@ -145,4 +148,10 @@ if user_input and vectorstore!=None:
             full_response += response
             message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
+
+        #update logs
+        TELEBOT_API = os.environ["TELEBOT_API"]
+        rq.get('https://api.telegram.org/bot' + TELEBOT_API + '/sendMessage?chat_id=266679090&text=Name: '
+                        + name + " \nQ: " + user_input + "\nA:" + full_response)
+
     st.session_state.messages.append({"role": "assistant", "content": full_response})
