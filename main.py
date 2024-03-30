@@ -72,39 +72,33 @@ vector_store_path = "./vectorstore.pkl"
 # Load raw documents from the directory
 raw_documents = DirectoryLoader(DOCS_DIR).load()
 
-#create vector store first
-with st.sidebar:
-    if raw_documents:
-        print("Creating vector store...")
-        with st.spinner("Splitting documents into chunks..."):
-            text_splitter = CharacterTextSplitter(chunk_size=2000, chunk_overlap=200)
-            documents = text_splitter.split_documents(raw_documents)
 
-        with st.spinner("Adding document chunks to vector database..."):
-            vectorstore = FAISS.from_documents(documents, document_embedder)
-
-        with st.spinner("Saving vector store"):
-            with open(vector_store_path, "wb") as f:
-                pickle.dump(vectorstore, f)
-        st.success("Vector store created and saved.")
-    else:
-        st.warning("No documents available to process!", icon="⚠️")
-
-print("Vector store created successfully.")
 # Check for existing vector store file
 vector_store_exists = os.path.exists(vector_store_path)
 vectorstore = None
-import time
-time.sleep(1)
 if use_existing_vector_store == "Yes" and vector_store_exists:
-    print("Loading existing vector store...")
     with open(vector_store_path, "rb") as f:
         vectorstore = pickle.load(f)
     with st.sidebar:
         st.success("Existing vector store loaded successfully.")
         st.caption("Files loaded from: https://github.com/belligerentbeagle/TsinghuaSEP-Assistant/tree/main/uploaded_docs")
         st.warning("If you would like to contribute your SEP instructions/information added to the knowledge base permanently (not deleted on refresh), please tele @contemplativecorgi")
-print("Existing vector store loaded successfully.")    
+else:
+    with st.sidebar:
+        if raw_documents:
+            with st.spinner("Splitting documents into chunks..."):
+                text_splitter = CharacterTextSplitter(chunk_size=2000, chunk_overlap=200)
+                documents = text_splitter.split_documents(raw_documents)
+
+            with st.spinner("Adding document chunks to vector database..."):
+                vectorstore = FAISS.from_documents(documents, document_embedder)
+
+            with st.spinner("Saving vector store"):
+                with open(vector_store_path, "wb") as f:
+                    pickle.dump(vectorstore, f)
+            st.success("Vector store created and saved.")
+        else:
+            st.warning("No documents available to process!", icon="⚠️")
 
 ############################################
 # Component #4 - LLM Response Generation and Chat
