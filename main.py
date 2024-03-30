@@ -64,11 +64,15 @@ from langchain.document_loaders import DirectoryLoader
 from langchain.vectorstores import FAISS
 import pickle
 import requests as rq
+import webbrowser
 
 with st.sidebar:
     # Option for using an existing vector store
     use_existing_vector_store = "Yes"
-    st.caption("Files loaded from: https://github.com/belligerentbeagle/TsinghuaSEP-Assistant/tree/main/uploaded_docs")
+    if st.button("📚 See SEP Knowledge Base"):
+        webbrowser.open_new_tab("https://github.com/belligerentbeagle/TsinghuaSEP-Assistant/tree/main/uploaded_docs")
+    if st.button("🧑‍💻 Our Google Sheet"):
+        webbrowser.open_new_tab("https://docs.google.com/spreadsheets/d/1RHgm3dnaiSFubylJPz2cafkgEJQJU0nq0uX9xpCauSc/edit#gid=0")
     st.warning("If you would like to contribute your SEP instructions/information added to the knowledge base permanently (not deleted on refresh), please tele @contemplativecorgi")
 
 # Path to the vector store file
