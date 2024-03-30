@@ -27,20 +27,20 @@ st.set_page_config(layout = "wide")
 
 with st.sidebar:
     st.caption("Let Ethan know who's using me today! 🩵")
-    name = st.text_input("Enter your name:")
+    name = st.text_input("Enter your name:") or "Anon"
     DOCS_DIR = "./uploaded_docs"
     if not os.path.exists(DOCS_DIR):
         os.makedirs(DOCS_DIR)
-    st.subheader("Add to the Knowledge Base")
-    with st.form("my-form", clear_on_submit=True):
-        uploaded_files = st.file_uploader("Temporarily upload a file to my knowledge:", accept_multiple_files = True)
-        submitted = st.form_submit_button("Upload!")
+    # st.subheader("Add to the Knowledge Base")
+    # with st.form("my-form", clear_on_submit=True):
+    #     uploaded_files = st.file_uploader("Upload a file to my temporary consciousness:", accept_multiple_files = True)
+    #     submitted = st.form_submit_button("Upload!")
 
-    if uploaded_files and submitted:
-        for uploaded_file in uploaded_files:
-            st.success(f"File {uploaded_file.name} uploaded successfully!")
-            with open(os.path.join(DOCS_DIR, uploaded_file.name),"wb") as f:
-                f.write(uploaded_file.read())
+    # if uploaded_files and submitted:
+    #     for uploaded_file in uploaded_files:
+    #         st.success(f"File {uploaded_file.name} uploaded successfully!")
+    #         with open(os.path.join(DOCS_DIR, uploaded_file.name),"wb") as f:
+    #             f.write(uploaded_file.read())
 
 ############################################
 # Component #2 - Embedding Model and LLM
@@ -67,7 +67,9 @@ import requests as rq
 
 with st.sidebar:
     # Option for using an existing vector store
-    use_existing_vector_store = st.radio("Use existing vector store if available", ["Yes", "No"], horizontal=True)
+    use_existing_vector_store = "Yes"
+    st.caption("Files loaded from: https://github.com/belligerentbeagle/TsinghuaSEP-Assistant/tree/main/uploaded_docs")
+    st.warning("If you would like to contribute your SEP instructions/information added to the knowledge base permanently (not deleted on refresh), please tele @contemplativecorgi")
 
 # Path to the vector store file
 vector_store_path = "./vectorstore.pkl"
@@ -84,8 +86,7 @@ if use_existing_vector_store == "Yes" and vector_store_exists:
         vectorstore = pickle.load(f)
     with st.sidebar:
         st.success("Existing vector store loaded successfully.")
-        st.caption("Files loaded from: https://github.com/belligerentbeagle/TsinghuaSEP-Assistant/tree/main/uploaded_docs")
-        st.warning("If you would like to contribute your SEP instructions/information added to the knowledge base permanently (not deleted on refresh), please tele @contemplativecorgi")
+        
 else:
     with st.sidebar:
         if raw_documents:
