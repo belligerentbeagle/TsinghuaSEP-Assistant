@@ -132,7 +132,7 @@ from langchain_core.prompts import ChatPromptTemplate
 prompt_template = ChatPromptTemplate.from_messages(
     [("system", "You are a helpful AI assistant named TsinghuaSEPAssistant created by almighty Ethan Wei. You will reply to questions succinctly only based on the context that you are provided and quote the source of your answer alongside your answer. If something is out of context, you will refrain from replying and politely decline to respond to the user. Also note that Tsinghua university is also known as Tsing hua university or THU."), ("user", "{input}")]
 )
-user_input = st.chat_input("What are the application steps?")
+user_input = st.chat_input("What are the application steps? What's there to do in tsinghua?")
 llm = ChatNVIDIA(model="mixtral_8x7b")
 
 chain = prompt_template | llm | StrOutputParser()
